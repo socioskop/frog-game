@@ -63,6 +63,12 @@ function gameLoop() {
             });
         }
         
+        // Inside the gameLoop function
+        flies.forEach(fly => { 
+            fly.update(p1, p2); // Pass both player objects here
+            fly.draw(ctx); 
+        });
+                
         // Check for Score Win
         if (p.score >= 10) {
             endGame(idx === 0 ? "Lysegrøn" : "Mørkegrøn", "score");
@@ -70,7 +76,7 @@ function gameLoop() {
     });
 
     // Update and Draw Insects
-    flies.forEach(f => { f.update(); f.draw(ctx); });
+    //flies.forEach(f => { f.update(); f.draw(ctx); });
     wasps.forEach(w => { w.update(); w.draw(ctx); });
 
     requestAnimationFrame(gameLoop);
