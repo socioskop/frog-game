@@ -40,7 +40,7 @@ function gameLoop() {
         if (p.state === "extending") {
             // Check Fly Hits (Score Point)
             flies.forEach(f => {
-                if (Math.hypot(f.x - tx, f.y - ty) < 25) {
+              if (Math.hypot(f.x + 20 - tx, f.y + 20 - ty) < 30) { 
                     p.score++;
                     f.reset();
                     p.state = "retracting";
