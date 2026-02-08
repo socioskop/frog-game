@@ -42,6 +42,10 @@ function gameLoop() {
             flies.forEach(f => {
               if (Math.hypot(f.x + 20 - tx, f.y + 20 - ty) < 30) { 
                     p.score++;
+                    if (p.score === 5) {
+                        console.log("Du har vundet en hat!");
+                        confetti({ particleCount: 33, spread: 30, origin: { y: 0.8 } });
+                    }
                     f.reset();
                     p.state = "retracting";
                     updateUI();
@@ -52,6 +56,7 @@ function gameLoop() {
             wasps.forEach(w => {
               if (Math.hypot(w.x - tx, w.y - ty) < 20) {
                   p.lives--;
+                  p.damageTimer = 60; // Start the 1-second squint!
                   triggerDamageFlash(); // <-- Trigger the red flash here!
                   w.reset();
                   p.state = "retracting";
@@ -84,8 +89,20 @@ function gameLoop() {
 
 // 5. UI and End State Functions
 function updateUI() {
-    document.getElementById('s1').innerHTML = `P1: ${p1.score} <span style="font-size:14px">❤️ ${p1.lives}</span>`;
-    document.getElementById('s2').innerHTML = `P2: ${p2.score} <span style="font-size:14px">❤️ ${p2.lives}</span>`;
+    // Generate heart strings
+    const p1Hearts = "❤️".repeat(p1.lives) + "🖤".repeat(3 - p1.lives);
+    const p2Hearts = "❤️".repeat(p2.lives) + "🖤".repeat(3 - p2.lives);
+
+    // Update the displays
+    document.getElementById('s1').innerHTML = `
+        <div style="font-size: 24px;">Lysegrøn frø: ${p1.score} fluer</div>
+        <div style="font-size: 18px; letter-spacing: 2px;">${p1Hearts}</div>
+    `;
+    
+    document.getElementById('s2').innerHTML = `
+        <div style="font-size: 24px;">Mørkegrøn frø: ${p2.score} fluer</div>
+        <div style="font-size: 18px; letter-spacing: 2px;">${p2Hearts}</div>
+    `;
 }
 
 function endGame(winner, reason) {
@@ -157,4 +174,5 @@ function triggerDamageFlash() {
 }
 
 // Start the game
+updateUI(); 
 gameLoop();
