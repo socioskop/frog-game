@@ -61,10 +61,6 @@ function gameLoop() {
                   }
               }
             });
-            
-            
-            
-            
         }
         
         // Check for Score Win
@@ -92,19 +88,53 @@ function endGame(winner, reason) {
     
     const overlay = document.createElement('div');
     overlay.className = "game-over-overlay"; 
-    overlay.innerHTML = `
-        <div style="background: white; color: black; padding: 40px; border-radius: 20px; text-align: center;">
-            <h1>🎉 ${winner} Vinder! 🎉</h1>
-            <p>${msg}</p>
-            <button onclick="location.reload()" style="padding: 10px 20px; cursor: pointer;">Spil igen?</button>
-        </div>
+
+    overlay.style = `
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0,0,0,0.85);
+        color: white;
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        border: 4px solid #4CAF50;
+        z-index: 100;
     `;
-    overlay.style = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); display:flex; align-items:center; justify-content:center; z-index:1000;";
+    
+    overlay.innerHTML = `
+        <h1 style="font-size: 3rem; margin: 0;">🎉 ${winner} Vinder! 🎉</h1>
+        <p>Fluerne er besejret!</p>
+        <button onclick="location.reload()" style="
+            padding: 10px 20px; 
+            font-size: 1.2rem; 
+            cursor: pointer; 
+            background: #4CAF50; 
+            color: white; 
+            border: none; 
+            border-radius: 5px;
+        ">Spil igen?</button>
+    `;
+    
     document.body.appendChild(overlay);
     
     // Trigger confetti if available
     if (typeof confetti === 'function') {
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        confetti({
+            particleCount: 150,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: ['#4CAF50', '#88ff88']
+        });
+        confetti({
+            particleCount: 150,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: ['#2E7D32', '#66bb66']
+        });
     }
 }
 
